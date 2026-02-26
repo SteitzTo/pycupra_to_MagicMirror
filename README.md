@@ -17,7 +17,7 @@ Ausführbare [pycupra Installation](https://github.com/SteitzTo/pycupra_manual_d
 
 Status: Verschlossen/Grün   Offen/rot<br>
 Restreichweite in km<br>
-Tankinhalt in % (Bei unter 20% orange, bei Unter 5% rot blinkend)<br>
+Tankinhalt in % (Bei unter 20% orange, bei unter 5% rot blinkend)<br>
 Ölservice in Tagen / KM<br>
 <br>
 <br>
