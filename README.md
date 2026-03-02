@@ -15,10 +15,12 @@ Ausführbare [pycupra Installation](https://github.com/SteitzTo/pycupra_manual_d
 
 ## 3. Anzeigen auf dem Magic Mirror 
 
+Fahrzeug: Parkt / Fährt <br>
 Status: Verschlossen/Grün   Offen/rot<br>
 Restreichweite in km<br>
 Tankinhalt in % (Bei unter 20% orange, bei unter 5% rot blinkend)<br>
 Ölservice in Tagen / KM<br>
+Inspektion in Tagen / KM (Bei unter 30 Tagen / 1500km orange)<br>
 <br>
 <br>
 
