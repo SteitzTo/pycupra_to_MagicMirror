@@ -49,7 +49,7 @@ Mein Mosquitto-Broker sendet dann die MQTT-Nachricht an das MQTT-Modul das Magic
 
 
 
-# 5. Anzeige des Fahrzeugstandortes
+## 5. Anzeige des Fahrzeugstandortes
 
 wenn man möchte das zusätzlich der Fahrzeugstandort auf dem Bildschirm angezeigt wird ist folgendes nötig:
 
