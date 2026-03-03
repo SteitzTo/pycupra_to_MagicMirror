@@ -63,7 +63,7 @@ wenn man möchte das zusätzlich der Fahrzeugstandort auf dem Bildschirm angezei
 
 Die Worldmap-Node in Node-Red installieren und konfigurieren.
 
-Danach die Flowdatei (pycupra_to_MM mit Map.json) herunterladen und in Node-Red importieren.
+Danach die Flowdatei (pycupra_to_MM_with_map.json) herunterladen und in Node-Red importieren.
 
 <img width="1279" height="414" alt="Unbenannt" src="https://github.com/user-attachments/assets/bdd6d283-01bb-4db0-b668-0b7e473b9b29" />
 
