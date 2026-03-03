@@ -44,3 +44,63 @@ Die Zeiten sind natürlich in der CronPlus-Node editier und anpassbar.
 
 Mein Mosquitto-Broker sendet dann die MQTT-Nachricht an das MQTT-Modul das Magic-Mirrors, wo die Daten dann angezeigt werden.
 
+
+
+
+# 5. Anzeige des Fahrzeugstandortes
+
+wenn man möchte das zusätzlich der Fahrzeugstandort auf dem Bildschirm angezeigt wird ist folgendes nötig:
+
+## 5.1 Abhänigkeiten
+
+### 5.1.1 In Node-Red:
+[Worldmap Node](https://flows.nodered.org/node/node-red-contrib-web-worldmap) 
+
+### 5.1.2 Im Magic-Mirror
+[MMM-WebView](https://github.com/Iketaki/MMM-WebView)
+
+## 5.2 Installation in Node-Red
+
+Die Worldmap-Node in Node-Red installieren und konfigurieren.
+
+Danach die Flowdatei (pycupra_to_MM mit Map.json) herunterladen und in Node-Red importieren.
+
+## Installation im Magic Mirror
+
+Das MMM-Webview Module in das Modul Verzeichnis clonen.
+
+In der config.js:
+
+oben unterhalb von let config = {   einfügen:
+
+electronOptions: {
+    webPreferences: {
+      webviewTag: true,
+    },
+  },
+
+danach unterhalb von modules [
+
+{
+    module: "MMM-WebView",
+    position: "top_right",
+    header: " Fahrzeugstandort",
+    config: {
+        url: "http://IP_eurer_Node_Red_Installation:1880/worldmap/",
+        width: "520px",
+        height: "540px",
+        autoRefresh: "true",
+        autoRefreshInterval: "10 * 60 * 1000",
+           },
+},
+
+Autorefresh hab ich auf 10 Minuten stehen. Bitte den Cronjob beachten, der in Node-Red die Daten ausliest und dann erst über MQTT und in die Wordmap Node sendet.
+
+
+
+
+
+
+
+
+
