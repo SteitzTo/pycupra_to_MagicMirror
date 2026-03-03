@@ -21,10 +21,12 @@ Restreichweite in km<br>
 Tankinhalt in % (Bei unter 20% orange, bei unter 5% rot blinkend)<br>
 Ölservice in Tagen / KM<br>
 Inspektion in Tagen / KM (Bei unter 30 Tagen / 1500 km orange)<br>
+Fahrzeugstandort über OpenStreetmap
 <br>
 <br>
 
-![20260226_202000](https://github.com/user-attachments/assets/b417a1ee-3bb8-4bad-9048-5a6219cacb62)
+<img width="740" height="970" alt="Unbenannt1" src="https://github.com/user-attachments/assets/08fbf19f-8b76-4b74-90f3-761236228e9d" />
+
 
 
 ## 4. Erklärungen zum Node-Red Flow
