@@ -77,15 +77,15 @@ In der config.js:
 
 oben unterhalb von let config = {   einfügen:
 
-
+```
 electronOptions: {
     webPreferences: {
       webviewTag: true,
     },
   },
-
+```
 danach unterhalb von modules [
-
+```
 {
     module: "MMM-WebView",
     position: "top_right",
@@ -98,7 +98,7 @@ danach unterhalb von modules [
         autoRefreshInterval: "10 * 60 * 1000",
            },
 },
-
+```
 Autorefresh hab ich auf 10 Minuten stehen. Bitte den Cronjob beachten, der in Node-Red die Daten ausliest und dann erst über MQTT und in die Wordmap Node sendet.
 
 
