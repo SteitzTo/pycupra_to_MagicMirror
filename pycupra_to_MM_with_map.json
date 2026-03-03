@@ -1,0 +1,313 @@
+[
+    {
+        "id": "1931e15cb0ab70bd",
+        "type": "file in",
+        "z": "55e74c31b3def666",
+        "name": "",
+        "filename": "/home/pi/pycupra/example/pycupra_all_attributes.txt",
+        "filenameType": "str",
+        "format": "utf8",
+        "chunk": false,
+        "sendError": false,
+        "encoding": "none",
+        "allProps": false,
+        "x": 680,
+        "y": 120,
+        "wires": [
+            [
+                "9bd8ceccf6f8954d",
+                "826444eb315db8ec"
+            ]
+        ]
+    },
+    {
+        "id": "8d1a63c02d0909b5",
+        "type": "mqtt out",
+        "z": "55e74c31b3def666",
+        "name": "",
+        "topic": "Alexa/Torsten/Cupra",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "a4a3cc56ed9dd522",
+        "x": 1180,
+        "y": 120,
+        "wires": []
+    },
+    {
+        "id": "ae9694af1969ac66",
+        "type": "cronplus",
+        "z": "55e74c31b3def666",
+        "name": "",
+        "outputField": "payload",
+        "timeZone": "",
+        "storeName": "",
+        "commandResponseMsgOutput": "output1",
+        "defaultLocation": "",
+        "defaultLocationType": "default",
+        "outputs": 1,
+        "options": [
+            {
+                "name": "schedule1",
+                "topic": "topic1",
+                "payloadType": "default",
+                "payload": "",
+                "expressionType": "cron",
+                "expression": "0 */15 6-21 * * 1-7",
+                "location": "",
+                "offset": "0",
+                "solarType": "all",
+                "solarEvents": "sunrise,sunset"
+            },
+            {
+                "name": "schedule2",
+                "topic": "topic2",
+                "payloadType": "default",
+                "payload": "",
+                "expressionType": "cron",
+                "expression": "0  22-6 * * 1-7",
+                "location": "",
+                "offset": "0",
+                "solarType": "all",
+                "solarEvents": "sunrise,sunset"
+            }
+        ],
+        "x": 120,
+        "y": 120,
+        "wires": [
+            [
+                "388aff5f303504f8",
+                "076ec2e08a2d9a4d"
+            ]
+        ]
+    },
+    {
+        "id": "388aff5f303504f8",
+        "type": "exec",
+        "z": "55e74c31b3def666",
+        "command": "cd /home/pi/pycupra/example && /home/pi/pycupra/pycupra_env/bin/python3 PyCupra.py",
+        "addpay": "",
+        "append": "",
+        "useSpawn": "false",
+        "timer": "",
+        "winHide": false,
+        "oldrc": false,
+        "name": "",
+        "x": 570,
+        "y": 240,
+        "wires": [
+            [],
+            [],
+            []
+        ]
+    },
+    {
+        "id": "076ec2e08a2d9a4d",
+        "type": "delay",
+        "z": "55e74c31b3def666",
+        "name": "",
+        "pauseType": "delay",
+        "timeout": "30",
+        "timeoutUnits": "seconds",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "allowrate": false,
+        "outputs": 1,
+        "x": 350,
+        "y": 120,
+        "wires": [
+            [
+                "1931e15cb0ab70bd"
+            ]
+        ]
+    },
+    {
+        "id": "bb8718bd8daf8f2e",
+        "type": "debug",
+        "z": "55e74c31b3def666",
+        "name": "debug 1",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1160,
+        "y": 200,
+        "wires": []
+    },
+    {
+        "id": "87bfe75541cd06b4",
+        "type": "comment",
+        "z": "55e74c31b3def666",
+        "name": "Cupra-Daten per MQTT an MM",
+        "info": "",
+        "x": 210,
+        "y": 60,
+        "wires": []
+    },
+    {
+        "id": "9bd8ceccf6f8954d",
+        "type": "function",
+        "z": "55e74c31b3def666",
+        "name": "function 7",
+        "func": "let text = msg.payload;\n\nconst uniqueId = \"car_ui_\" + Math.random().toString(36).substr(2, 9);\n\nconst getValue = (regex, input) => {\n    const match = input.match(regex);\n    return (match && match[1]) ? parseFloat(match[1]) : 0;\n};\n\nconst getBool = (key, input) => {\n    const regex = new RegExp(`['\"]${key}['\"]\\\\s*:\\\\s*(true|false)`, \"i\");\n    const match = String(input).match(regex);\n    if (match) {\n        return match[1].toLowerCase() === \"true\";\n    }\n    return null;\n};\n\nlet daten = {\n    Reichweite: getValue(/rangeKm['\"]\\s*:\\s*([\\d.]+)/, text),\n    Tankfüllung: getValue(/levelPct['\"]\\s*:\\s*([\\d.]+)/, text),\n    ÖlWechsel_Tage: getValue(/oilServiceDueDays['\"]\\s*:\\s*([\\d.]+)/, text),\n    ÖlWechsel_KM: getValue(/oilServiceDueKm['\"]\\s*:\\s*([\\d.]+)/, text),\n    Service_Tage: getValue(/inspectionDueDays['\"]\\s*:\\s*([\\d.]+)/, text),\n    Service_KM: getValue(/inspectionDueKm['\"]\\s*:\\s*([\\d.]+)/, text),\n    IstVerschlossen: getBool(\"locked\", text),\n    FährtGerade: getBool(\"isMoving\", text)\n};\n\n// Logik für Warnfarben (Rot unter 30 Tagen oder unter 1000 km)\nlet oelClass = (daten.ÖlWechsel_Tage < 30 || daten.ÖlWechsel_KM < 1000) ? \"warning-red-only\" : \"normal\";\nlet serviceClass = (daten.Service_Tage < 30 || daten.Service_KM < 1000) ? \"warning-red-only\" : \"normal\";\n\nlet lockClass = daten.IstVerschlossen === null ? \"normal\" : (daten.IstVerschlossen ? \"status-locked\" : \"status-open\");\nlet lockText = daten.IstVerschlossen === null ? \"Unbekannt\" : (daten.IstVerschlossen ? \"Verschlossen\" : \"Offen\");\n\nlet moveClass = daten.FährtGerade ? \"status-moving\" : \"normal\";\nlet moveText = daten.FährtGerade ? \"Fährt\" : \"Parkt\";\n\nlet tankClass = (daten.Tankfüllung < 5) ? \"critical-blink\" : (daten.Tankfüllung < 20 ? \"warning-red\" : \"normal\");\n\nmsg.payload = `\n<style>\n    #${uniqueId}.fahrzeug-container {\n        display: flex;\n        flex-direction: column;\n        gap: 6px;\n        padding: 5px 5px 5px 70px;\n        text-align: left;\n    }\n    #${uniqueId} .info-row { font-size: 0.9em; line-height: 1.2; color: #ffffff; }\n    #${uniqueId} .label { color: #aaaaaa; margin-right: 5px; }\n    \n    #${uniqueId} .status-locked { color: #4CAF50; font-weight: bold; }\n    #${uniqueId} .status-open { color: #ff9800; font-weight: bold; }\n    #${uniqueId} .status-moving { color: #2196F3; font-weight: bold; }\n    #${uniqueId} .normal { color: #ffffff; }\n    #${uniqueId} .warning-red { color: #ff4d4d; font-weight: bold; }\n    #${uniqueId} .warning-red-only { color: #ff4d4d; } /* Nur Rot, kein Bold */\n    \n    #${uniqueId} .critical-blink { \n        color: #ff4d4d; \n        font-weight: bold; \n        animation: ${uniqueId}_blinker 1s linear infinite; \n    }\n    @keyframes ${uniqueId}_blinker { 50% { opacity: 0.1; } }\n</style>\n\n<div id=\"${uniqueId}\" class=\"fahrzeug-container\">\n    <div class=\"info-row\">\n        <span class=\"label\">Bewegung:</span> \n        <span class=\"${moveClass}\">${moveText}</span>\n    </div>\n    <div class=\"info-row\">\n        <span class=\"label\">Sicherheit:</span> \n        <span class=\"${lockClass}\">${lockText}</span>\n    </div>\n    <div class=\"info-row\">\n        <span class=\"label\">Reichweite:</span> \n        <span class=\"normal\">${daten.Reichweite.toLocaleString('de-DE')} km</span>\n    </div>\n    <div class=\"info-row\">\n        <span class=\"label\">Tank:</span> \n        <span class=\"${tankClass}\">${daten.Tankfüllung}%</span>\n    </div>\n    <div class=\"info-row\">\n        <span class=\"label\">Öl-Service:</span> \n        <span class=\"${oelClass}\">${daten.ÖlWechsel_Tage} Tage / ${daten.ÖlWechsel_KM.toLocaleString('de-DE')} km</span>\n    </div>\n    <div class=\"info-row\">\n        <span class=\"label\">Inspektion:</span> \n        <span class=\"${serviceClass}\">${daten.Service_Tage} Tage / ${daten.Service_KM.toLocaleString('de-DE')} km</span>\n    </div>\n</div>\n`;\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 980,
+        "y": 120,
+        "wires": [
+            [
+                "8d1a63c02d0909b5",
+                "bb8718bd8daf8f2e"
+            ]
+        ]
+    },
+    {
+        "id": "826444eb315db8ec",
+        "type": "function",
+        "z": "55e74c31b3def666",
+        "name": "function 2",
+        "func": "let rawData = msg.payload;\n\n// Suche nach lat und lon (Regex für 'lat': 49.6267, 'lon': 7.826342)\nlet latMatch = rawData.match(/'lat':\\s*([\\d.]+)/);\nlet lonMatch = rawData.match(/'lon':\\s*([\\d.]+)/);\n\nif (latMatch && lonMatch) {\n    // Umwandeln in Zahlen für die Karte\n    msg.payload = {\n        lat: parseFloat(latMatch[1]),\n        lon: parseFloat(lonMatch[1]),\n        name: \"Cubra Leon\",\n        icon: \"car\",\n        color: \"blue\",\n        layer: \"Fahrzeug\"\n    };\n\n    return msg;\n} else {\n    node.error(\"Fehler: Koordinaten nicht im Text gefunden.\");\n    return null;\n}",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1000,
+        "y": 320,
+        "wires": [
+            [
+                "f34bf10b8e253813",
+                "140a6a3110ddd513"
+            ]
+        ]
+    },
+    {
+        "id": "f34bf10b8e253813",
+        "type": "debug",
+        "z": "55e74c31b3def666",
+        "name": "debug 2",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1180,
+        "y": 320,
+        "wires": []
+    },
+    {
+        "id": "140a6a3110ddd513",
+        "type": "ui_worldmap",
+        "z": "55e74c31b3def666",
+        "group": "26137a8fb0f8fd42",
+        "order": 0,
+        "width": 0,
+        "height": 0,
+        "name": "",
+        "lat": "",
+        "lon": "",
+        "zoom": "",
+        "layer": "OSMG",
+        "cluster": "",
+        "maxage": "",
+        "usermenu": "hide",
+        "layers": "hide",
+        "panit": "true",
+        "panlock": "false",
+        "zoomlock": "false",
+        "hiderightclick": "true",
+        "coords": "none",
+        "showgrid": "false",
+        "showruler": "false",
+        "allowFileDrop": "false",
+        "path": "/worldmap",
+        "overlist": "DR,CO,RA,DN,HM",
+        "maplist": "OSMG,OSMC,EsriC,EsriS,EsriT,EsriDG",
+        "mapname": "",
+        "mapurl": "",
+        "mapopt": "",
+        "mapwms": false,
+        "x": 1180,
+        "y": 380,
+        "wires": []
+    },
+    {
+        "id": "a4a3cc56ed9dd522",
+        "type": "mqtt-broker",
+        "name": "MQTT-Server",
+        "broker": "192.168.2.2",
+        "port": "1883",
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": false,
+        "protocolVersion": "4",
+        "keepalive": "60",
+        "cleansession": true,
+        "autoUnsubscribe": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthRetain": "false",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closeRetain": "false",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willRetain": "false",
+        "willPayload": "",
+        "willMsg": {},
+        "userProps": "",
+        "sessionExpiry": ""
+    },
+    {
+        "id": "26137a8fb0f8fd42",
+        "type": "ui_group",
+        "name": "Standard",
+        "tab": "016478cb23e497a1",
+        "order": 1,
+        "disp": true,
+        "width": 6,
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "016478cb23e497a1",
+        "type": "ui_tab",
+        "name": "Home",
+        "icon": "dashboard",
+        "disabled": false,
+        "hidden": false
+    },
+    {
+        "id": "5ad8bcab194d2a34",
+        "type": "global-config",
+        "env": [],
+        "modules": {
+            "node-red-contrib-cron-plus": "2.2.4",
+            "node-red-contrib-web-worldmap": "5.6.1",
+            "node-red-dashboard": "3.6.6"
+        }
+    }
+]
