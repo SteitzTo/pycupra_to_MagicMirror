@@ -44,6 +44,8 @@ In der Zeit von 22:00-5:59 erfolgt die Ansteuerung nur jede volle Stunde.
 
 Die Zeiten sind natürlich in der CronPlus-Node editier und anpassbar. 
 
+ACHTUNG! Zu oftes Abfragen des Fahrzeugs kann die Batterie im Stand stark entladen! 
+
 Mein Mosquitto-Broker sendet dann die MQTT-Nachricht an das MQTT-Modul das Magic-Mirrors, wo die Daten dann angezeigt werden.
 
 
