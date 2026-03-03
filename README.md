@@ -94,12 +94,10 @@ danach unterhalb von modules [
         url: "http://IP_eurer_Node_Red_Installation:1880/worldmap/",
         width: "520px",
         height: "540px",
-        autoRefresh: "true",
-        autoRefreshInterval: "10 * 60 * 1000",
            },
 },
 ```
-Autorefresh hab ich auf 10 Minuten stehen. Bitte den Cronjob beachten, der in Node-Red die Daten ausliest und dann erst über MQTT und in die Wordmap Node sendet.
+Die Karte wird immer dann aktualisert wenn der Cron-Plus Job in Node-Red läuft.
 
 
 
