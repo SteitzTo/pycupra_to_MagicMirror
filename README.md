@@ -5,7 +5,7 @@ Display some Information about my Cupra on my Magic Mirror
 
 ![Node Red](https://img.shields.io/badge/Node--Red-8F0000?style=flat&logo=nodered&logoColor=white) Vorhandene Node-Red Installation<br>
 ![Mosquitto](https://img.shields.io/badge/mosquitto-%233C5280.svg?style=flat&logo=eclipsemosquitto&logoColor=white) Mosquitto für MQTT<br>
-Ausführbare [pycupra Installation](https://github.com/SteitzTo/pycupra_manual_de) (getestet mit Version 0.2.14)<br>
+Ausführbare [pycupra Installation](https://github.com/SteitzTo/pycupra_manual_de) (getestet mit Version 0.2.16)<br>
 [Magic Mirror Installation](https://github.com/MagicMirrorOrg/MagicMirror)<br>
 [MQTT Modul für MagicMirror](https://github.com/ottopaulsen/MMM-MQTT)<br>
 <br>
